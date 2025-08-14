@@ -358,6 +358,26 @@ export type Database = {
         Args: { new_email: string; new_school_id: string; new_user_id: string }
         Returns: undefined
       }
+      get_dorm_profile_secure: {
+        Args: { profile_id: string }
+        Returns: {
+          contact_email: string
+          contact_enabled: boolean
+          contact_first_name: string
+          contact_last_initial: string
+          created_at: string
+          dorm_name: string
+          id: string
+          notes: string
+          photos_decorated: string
+          photos_empty: string[]
+          published: boolean
+          room_number: string
+          school_id: string
+          updated_at: string
+          user_id: string
+        }[]
+      }
       get_public_profile: {
         Args: { profile_user_id: string }
         Returns: {
@@ -373,6 +393,26 @@ export type Database = {
       get_user_school_id: {
         Args: { user_uuid: string }
         Returns: string
+      }
+      search_dorm_profiles_secure: {
+        Args: { search_school_id: string; search_term?: string }
+        Returns: {
+          contact_email: string
+          contact_enabled: boolean
+          contact_first_name: string
+          contact_last_initial: string
+          created_at: string
+          dorm_name: string
+          id: string
+          notes: string
+          photos_decorated: string[]
+          photos_empty: string[]
+          published: boolean
+          room_number: string
+          school_id: string
+          updated_at: string
+          user_id: string
+        }[]
       }
       user_can_access_school_content: {
         Args: { content_user_id: string }

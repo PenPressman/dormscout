@@ -36,17 +36,28 @@ const DormProfile = () => {
       if (!id) throw new Error('No profile ID provided');
       
       const { data, error } = await supabase
-        .from('dorm_profiles')
-        .select(`
-          *,
-          school:schools(name, primary_color)
-        `)
-        .eq('id', id)
-        .eq('published', true)
-        .single();
+        .rpc('get_dorm_profile_secure', {
+          profile_id: id
+        });
       
       if (error) throw error;
-      return data as DormProfile;
+      if (!data || data.length === 0) throw new Error('Profile not found');
+      
+      const profileData = data[0];
+      
+      // Fetch school data separately
+      const { data: schoolData, error: schoolError } = await supabase
+        .from('schools')
+        .select('name, primary_color')
+        .eq('id', profileData.school_id)
+        .single();
+      
+      if (schoolError) throw schoolError;
+      
+      return {
+        ...profileData,
+        school: schoolData
+      } as DormProfile;
     },
     enabled: !!id
   });

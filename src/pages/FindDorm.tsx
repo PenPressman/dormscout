@@ -58,25 +58,30 @@ const FindDorm = () => {
     enabled: schoolSearch.length >= 2
   });
 
-  // Search dorm profiles within selected school
+  // Search dorm profiles within selected school using secure function
   const { data: dormProfiles } = useQuery({
     queryKey: ['dorm-profiles', selectedSchool?.id, dormSearch],
     queryFn: async () => {
       if (!selectedSchool || !dormSearch || dormSearch.length < 2) return [];
       
       const { data, error } = await supabase
-        .from('dorm_profiles')
-        .select(`
-          *,
-          school:schools(name, primary_color)
-        `)
-        .eq('school_id', selectedSchool.id)
-        .or(`dorm_name.ilike.%${dormSearch}%,room_number.ilike.%${dormSearch}%,notes.ilike.%${dormSearch}%`)
-        .eq('published', true)
-        .limit(20);
+        .rpc('search_dorm_profiles_secure', {
+          search_school_id: selectedSchool.id,
+          search_term: dormSearch
+        });
       
       if (error) throw error;
-      return data as DormProfile[];
+      
+      // Add school data from the selected school
+      const profilesWithSchool = data?.map(profile => ({
+        ...profile,
+        school: {
+          name: selectedSchool.name,
+          primary_color: selectedSchool.primary_color
+        }
+      })) || [];
+      
+      return profilesWithSchool as DormProfile[];
     },
     enabled: !!selectedSchool && dormSearch.length >= 2
   });
