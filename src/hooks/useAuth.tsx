@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 interface AuthContextType {
   user: User | null;
@@ -22,14 +22,11 @@ export const useAuth = () => {
   return context;
 };
 
-const isValidEduEmail = (email: string): boolean => {
-  return email.endsWith('.edu');
-};
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     // Set up auth state listener
@@ -52,61 +49,101 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signUp = async (email: string, password: string) => {
-    if (!isValidEduEmail(email)) {
-      return { error: { message: 'Please use a valid .edu email address' } };
-    }
-
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl
+    try {
+      // Check if email is from a supported school domain
+      const supportedDomains = ['berkeley.edu', 'stanford.edu', 'harvard.edu', 'mit.edu'];
+      const emailDomain = email.split('@')[1];
+      
+      if (!supportedDomains.includes(emailDomain)) {
+        return { error: { message: 'Please use your school email address (.edu domain)' } };
       }
-    });
 
-    if (error) {
+      const redirectUrl = `${window.location.origin}/`;
+      
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl
+        }
+      });
+
+      if (error) {
+        toast({
+          title: "Sign up failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        return { error };
+      }
+
+      toast({
+        title: "Check your email",
+        description: "Please verify your email address to complete registration.",
+      });
+
+      return { error: null };
+    } catch (error: any) {
+      toast({
+        title: "Sign up failed",
+        description: error.message,
+        variant: "destructive",
+      });
       return { error };
     }
-
-    toast({
-      title: "Check your email",
-      description: "We sent you a confirmation link to complete signup.",
-    });
-
-    return { error: null };
   };
 
   const signIn = async (email: string, password: string) => {
-    if (!isValidEduEmail(email)) {
-      return { error: { message: 'Please use a valid .edu email address' } };
-    }
-
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) throw error;
+      if (error) {
+        toast({
+          title: "Sign in failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        return { error };
+      }
 
       if (data.user) {
+        toast({
+          title: "Welcome back!",
+          description: "You have successfully signed in.",
+        });
+        // Force page reload for clean state
         window.location.href = '/';
       }
 
       return { error: null };
     } catch (error: any) {
+      toast({
+        title: "Sign in failed",
+        description: error.message,
+        variant: "destructive",
+      });
       return { error };
     }
   };
 
   const signOut = async () => {
     try {
-      await supabase.auth.signOut({ scope: 'global' });
+      await supabase.auth.signOut();
+      toast({
+        title: "Signed out",
+        description: "You have been signed out successfully.",
+      });
+      // Force page reload for clean state
       window.location.href = '/auth';
-    } catch (error) {
-      console.error('Error signing out:', error);
+    } catch (error: any) {
+      toast({
+        title: "Sign out failed",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 
