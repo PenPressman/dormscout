@@ -1,40 +1,89 @@
 import { useAuth } from '@/hooks/useAuth';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, Upload, Sparkles } from 'lucide-react';
-import Layout from '@/components/Layout';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Search, Upload, Sparkles, Menu, Heart, Edit, LogOut, LogIn } from 'lucide-react';
 
 const Index = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, signOut } = useAuth();
+  const [requiresAuth, setRequiresAuth] = useState(false);
 
-  useEffect(() => {
-    if (!loading && !user) {
-      window.location.href = '/auth';
+  const handleAuthRequiredAction = (action: () => void) => {
+    if (!user) {
+      setRequiresAuth(true);
+      return;
     }
-  }, [user, loading]);
+    action();
+  };
 
   if (loading) {
     return (
-      <Layout>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading...</p>
-          </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
-      </Layout>
+      </div>
     );
   }
 
-  if (!user) {
-    return null;
-  }
-
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-12 pb-24 md:pb-12">
+    <div className="min-h-screen bg-off-white">
+      {/* Header */}
+      <header className="bg-white border-b shadow-sm">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center space-x-3">
+            <div className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-dorm-pink to-dorm-orange rounded-full">
+              <Sparkles className="h-6 w-6 text-white" />
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent">
+              Dorm Scout
+            </h1>
+          </div>
+
+          {/* Menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Menu className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuItem onClick={() => handleAuthRequiredAction(() => window.location.href = '/find')}>
+                <Search className="h-4 w-4 mr-2" />
+                Find a Dorm
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleAuthRequiredAction(() => window.location.href = '/share')}>
+                <Upload className="h-4 w-4 mr-2" />
+                Share a Dorm
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleAuthRequiredAction(() => window.location.href = '/my-posts')}>
+                <Edit className="h-4 w-4 mr-2" />
+                View Your Posts
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleAuthRequiredAction(() => window.location.href = '/saved')}>
+                <Heart className="h-4 w-4 mr-2" />
+                View Saved Dorms
+              </DropdownMenuItem>
+              {user ? (
+                <DropdownMenuItem onClick={signOut}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem onClick={() => window.location.href = '/auth'}>
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Sign In
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-4 py-12">
         {/* Hero Section */}
         <section className="text-center mb-16">
           <div className="mb-8">
@@ -46,7 +95,7 @@ const Index = () => {
             Dorm Scout
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Discover your perfect dorm room before you move in
+            Learn from earlier residents so you know what to expect!
           </p>
         </section>
 
@@ -61,13 +110,15 @@ const Index = () => {
               </div>
               <h2 className="text-2xl font-bold mb-4 text-foreground">Find a Dorm</h2>
               <p className="text-muted-foreground mb-6">
-                Search for dorms and see real photos from students
+                Find your dorm, or dream dorm, and browse photos, reviews, and tips.
               </p>
-              <Link to="/find">
-                <Button size="lg" className="w-full text-lg py-6">
-                  Start Exploring
-                </Button>
-              </Link>
+              <Button 
+                onClick={() => handleAuthRequiredAction(() => window.location.href = '/find')}
+                size="lg" 
+                className="w-full text-lg py-6"
+              >
+                Start Exploring
+              </Button>
             </CardContent>
           </Card>
 
@@ -82,16 +133,58 @@ const Index = () => {
               <p className="text-muted-foreground mb-6">
                 Help others by sharing your dorm experience
               </p>
-              <Link to="/share">
-                <Button variant="secondary" size="lg" className="w-full text-lg py-6">
-                  Share Your Room
-                </Button>
-              </Link>
+              <Button 
+                onClick={() => handleAuthRequiredAction(() => window.location.href = '/share')}
+                variant="secondary" 
+                size="lg" 
+                className="w-full text-lg py-6"
+              >
+                Share Your Room
+              </Button>
             </CardContent>
           </Card>
         </section>
       </div>
-    </Layout>
+
+      {/* Footer */}
+      <footer className="bg-white border-t mt-16">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex justify-center space-x-8">
+            <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">
+              About Us
+            </Link>
+            <a 
+              href="mailto:penelope.pressman@gmail.com" 
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Contact
+            </a>
+          </div>
+        </div>
+      </footer>
+
+      {/* Auth Required Modal */}
+      {requiresAuth && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setRequiresAuth(false)}>
+          <Card className="w-full max-w-md m-4" onClick={(e) => e.stopPropagation()}>
+            <CardContent className="p-6 text-center">
+              <h3 className="text-lg font-semibold mb-4">Sign In Required</h3>
+              <p className="text-muted-foreground mb-6">
+                You need to sign in with your school email to access this feature.
+              </p>
+              <div className="flex space-x-3">
+                <Button variant="outline" onClick={() => setRequiresAuth(false)} className="flex-1">
+                  Cancel
+                </Button>
+                <Button onClick={() => window.location.href = '/auth'} className="flex-1">
+                  Sign In
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </div>
   );
 };
 

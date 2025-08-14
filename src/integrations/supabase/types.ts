@@ -51,6 +51,10 @@ export type Database = {
       }
       dorm_profiles: {
         Row: {
+          contact_email: string | null
+          contact_enabled: boolean
+          contact_first_name: string | null
+          contact_last_initial: string | null
           created_at: string
           dorm_name: string
           id: string
@@ -64,6 +68,10 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          contact_email?: string | null
+          contact_enabled?: boolean
+          contact_first_name?: string | null
+          contact_last_initial?: string | null
           created_at?: string
           dorm_name: string
           id?: string
@@ -77,6 +85,10 @@ export type Database = {
           user_id: string
         }
         Update: {
+          contact_email?: string | null
+          contact_enabled?: boolean
+          contact_first_name?: string | null
+          contact_last_initial?: string | null
           created_at?: string
           dorm_name?: string
           id?: string
@@ -277,6 +289,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      saved_dorms: {
+        Row: {
+          created_at: string
+          dorm_profile_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dorm_profile_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dorm_profile_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       schools: {
         Row: {

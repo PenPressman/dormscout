@@ -41,7 +41,7 @@ const Auth = () => {
           <div className="flex justify-center mb-4">
             <GraduationCap className="h-12 w-12 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold">DormVision</CardTitle>
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent">Dorm Scout</CardTitle>
           <CardDescription>
             Connect with your school email to explore and share dorm room information
           </CardDescription>
@@ -136,9 +136,8 @@ const Auth = () => {
           </Tabs>
           
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>Supported schools:</p>
-            <p>UC Berkeley • Stanford • Harvard • MIT</p>
-            <p className="text-xs mt-1">(@berkeley.edu, @stanford.edu, @harvard.edu, @mit.edu, @college.harvard.edu)</p>
+            <p>Supported universities:</p>
+            <p className="text-xs mt-1">Princeton • MIT • Harvard • Stanford • Yale • Caltech • Duke • Johns Hopkins • Northwestern • UPenn • Cornell • UChicago • Brown • Columbia • Dartmouth • UCLA • UC Berkeley • Michigan • Rice • Vanderbilt • Carnegie Mellon • USC • UT Austin • Washington University • UC San Diego • Boston University • University of Maryland</p>
           </div>
         </CardContent>
       </Card>

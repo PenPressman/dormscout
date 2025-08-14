@@ -11,6 +11,11 @@ import FindDorm from "./pages/FindDorm";
 import ShareDorm from "./pages/ShareDorm";
 import DormProfile from "./pages/DormProfile";
 import CreateDormProfile from "./pages/CreateDormProfile";
+import EditDormProfile from "./pages/EditDormProfile";
+import SavedDorms from "./pages/SavedDorms";
+import MyPosts from "./pages/MyPosts";
+import About from "./pages/About";
+import EmailVerified from "./pages/EmailVerified";
 
 const queryClient = new QueryClient();
 
@@ -24,10 +29,15 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/email-verified" element={<EmailVerified />} />
             <Route path="/find" element={<FindDorm />} />
             <Route path="/share" element={<ShareDorm />} />
             <Route path="/dorm/create" element={<CreateDormProfile />} />
+            <Route path="/dorm/edit/:id" element={<EditDormProfile />} />
             <Route path="/dorm/:id" element={<DormProfile />} />
+            <Route path="/saved" element={<SavedDorms />} />
+            <Route path="/my-posts" element={<MyPosts />} />
+            <Route path="/about" element={<About />} />
             {/* Legacy routes for backward compatibility */}
             <Route path="/search" element={<FindDorm />} />
             <Route path="/upload" element={<ShareDorm />} />

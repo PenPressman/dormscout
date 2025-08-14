@@ -3,9 +3,17 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Upload, Plus, List } from 'lucide-react';
 import Layout from '@/components/Layout';
+import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
 
 const ShareDorm = () => {
+  const { user } = useAuth();
+
+  // Redirect to auth if not logged in
+  if (!user) {
+    window.location.href = '/auth';
+    return null;
+  }
   return (
     <Layout showBackButton>
       <div className="container mx-auto px-4 py-8 pb-24 md:pb-8">

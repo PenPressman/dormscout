@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Building, MapPin } from 'lucide-react';
 import Layout from '@/components/Layout';
+import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
 
 interface School {
@@ -28,9 +29,16 @@ interface DormProfile {
 }
 
 const FindDorm = () => {
+  const { user } = useAuth();
   const [schoolSearch, setSchoolSearch] = useState('');
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
   const [dormSearch, setDormSearch] = useState('');
+
+  // Redirect to auth if not logged in
+  if (!user) {
+    window.location.href = '/auth';
+    return null;
+  }
 
   // Search schools
   const { data: schools } = useQuery({

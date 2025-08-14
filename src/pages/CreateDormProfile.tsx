@@ -21,6 +21,12 @@ const CreateDormProfile = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  // Redirect to auth if not logged in
+  if (!user) {
+    window.location.href = '/auth';
+    return null;
+  }
   
   const [selectedSchoolId, setSelectedSchoolId] = useState('');
   const [dormName, setDormName] = useState('');

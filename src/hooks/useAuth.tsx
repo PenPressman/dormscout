@@ -53,14 +53,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log('Starting signup process for:', email);
       
       // Check if email is from a supported school domain
-      const supportedDomains = ['berkeley.edu', 'stanford.edu', 'harvard.edu', 'mit.edu', 'college.harvard.edu'];
+      const supportedDomains = [
+        'princeton.edu', 'mit.edu', 'harvard.edu', 'college.harvard.edu', 'stanford.edu', 
+        'yale.edu', 'caltech.edu', 'duke.edu', 'jhu.edu', 'northwestern.edu', 
+        'upenn.edu', 'cornell.edu', 'uchicago.edu', 'brown.edu', 'columbia.edu', 
+        'dartmouth.edu', 'ucla.edu', 'berkeley.edu', 'umich.edu', 'rice.edu', 
+        'vanderbilt.edu', 'cmu.edu', 'usc.edu', 'utexas.edu', 'wustl.edu', 
+        'ucsd.edu', 'bu.edu', 'umd.edu'
+      ];
       const emailDomain = email.split('@')[1];
       console.log('Email domain:', emailDomain);
       console.log('Supported domains:', supportedDomains);
       
       if (!supportedDomains.includes(emailDomain)) {
         console.log('Domain not supported');
-        const error = { message: 'Please use your school email address (.edu domain). Supported: berkeley.edu, stanford.edu, harvard.edu, mit.edu, college.harvard.edu' };
+        const error = { message: 'Please use your verified school email address from one of the supported universities.' };
         toast({
           title: "Invalid email domain",
           description: error.message,
