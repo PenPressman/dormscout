@@ -40,41 +40,44 @@ const SavedDorms = () => {
       if (savedError) throw savedError;
       if (!savedDormIds || savedDormIds.length === 0) return [];
 
-      // Then get the dorm profiles
-      const profileIds = savedDormIds.map(s => s.dorm_profile_id);
-      const { data: profiles, error: profilesError } = await supabase
-        .from('dorm_profiles')
-        .select(`
-          id,
-          dorm_name,
-          room_number,
-          photos_empty,
-          photos_decorated,
-          notes,
-          schools!inner(name)
-        `)
-        .in('id', profileIds)
-        .eq('published', true);
+      // Use the secure function to get dorm profiles instead of direct table access
+      const profiles = [];
       
-      if (profilesError) throw profilesError;
-      if (!profiles) return [];
-
-      // Combine the data
-      return savedDormIds.map(saved => {
-        const profile = profiles.find(p => p.id === saved.dorm_profile_id);
-        if (!profile) return null;
+      for (const savedDorm of savedDormIds) {
+        const { data: profileData, error: profileError } = await supabase
+          .rpc('get_dorm_profile_secure', {
+            profile_id: savedDorm.dorm_profile_id
+          });
         
-        return {
-          id: saved.id,
-          dorm_profile_id: profile.id,
-          dorm_name: profile.dorm_name,
-          room_number: profile.room_number,
-          photos_empty: profile.photos_empty,
-          photos_decorated: profile.photos_decorated,
-          notes: profile.notes,
-          school_name: profile.schools?.name || 'Unknown School'
-        };
-      }).filter(Boolean) as SavedDorm[];
+        if (profileError) {
+          console.error('Error fetching profile:', profileError);
+          continue;
+        }
+        
+        if (profileData && profileData.length > 0) {
+          const profile = profileData[0];
+          
+          // Fetch school data separately
+          const { data: schoolData, error: schoolError } = await supabase
+            .from('schools')
+            .select('name')
+            .eq('id', profile.school_id)
+            .single();
+          
+          profiles.push({
+            id: savedDorm.id,
+            dorm_profile_id: profile.id,
+            dorm_name: profile.dorm_name,
+            room_number: profile.room_number,
+            photos_empty: profile.photos_empty,
+            photos_decorated: profile.photos_decorated,
+            notes: profile.notes,
+            school_name: schoolData?.name || 'Unknown School'
+          });
+        }
+      }
+
+      return profiles as SavedDorm[];
     },
     enabled: !!user
   });
