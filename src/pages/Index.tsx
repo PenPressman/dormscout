@@ -1,6 +1,6 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -9,13 +9,14 @@ import { Search, Upload, Sparkles, Menu, Heart, Edit, LogOut, LogIn } from 'luci
 const Index = () => {
   const { user, loading, signOut } = useAuth();
   const [requiresAuth, setRequiresAuth] = useState(false);
+  const navigate = useNavigate();
 
-  const handleAuthRequiredAction = (action: () => void) => {
+  const handleAuthRequiredAction = (path: string) => {
     if (!user) {
       setRequiresAuth(true);
       return;
     }
-    action();
+    navigate(path);
   };
 
   if (loading) {
@@ -51,19 +52,19 @@ const Index = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuItem onClick={() => handleAuthRequiredAction(() => window.location.href = '/find')}>
+              <DropdownMenuItem onClick={() => handleAuthRequiredAction('/find')}>
                 <Search className="h-4 w-4 mr-2" />
                 Find a Dorm
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleAuthRequiredAction(() => window.location.href = '/share')}>
+              <DropdownMenuItem onClick={() => handleAuthRequiredAction('/share')}>
                 <Upload className="h-4 w-4 mr-2" />
                 Share a Dorm
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleAuthRequiredAction(() => window.location.href = '/my-posts')}>
+              <DropdownMenuItem onClick={() => handleAuthRequiredAction('/my-posts')}>
                 <Edit className="h-4 w-4 mr-2" />
                 View Your Posts
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleAuthRequiredAction(() => window.location.href = '/saved')}>
+              <DropdownMenuItem onClick={() => handleAuthRequiredAction('/saved')}>
                 <Heart className="h-4 w-4 mr-2" />
                 View Saved Dorms
               </DropdownMenuItem>
@@ -73,7 +74,7 @@ const Index = () => {
                   Sign Out
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem onClick={() => window.location.href = '/auth'}>
+                <DropdownMenuItem onClick={() => navigate('/auth')}>
                   <LogIn className="h-4 w-4 mr-2" />
                   Sign In
                 </DropdownMenuItem>
@@ -113,7 +114,7 @@ const Index = () => {
                 Find your dorm, or dream dorm, and browse photos, reviews, and tips.
               </p>
               <Button 
-                onClick={() => handleAuthRequiredAction(() => window.location.href = '/find')}
+                onClick={() => handleAuthRequiredAction('/find')}
                 size="lg" 
                 className="w-full text-lg py-6"
               >
@@ -134,7 +135,7 @@ const Index = () => {
                 Help others by sharing your dorm experience
               </p>
               <Button 
-                onClick={() => handleAuthRequiredAction(() => window.location.href = '/share')}
+                onClick={() => handleAuthRequiredAction('/share')}
                 variant="secondary" 
                 size="lg" 
                 className="w-full text-lg py-6"
@@ -176,7 +177,7 @@ const Index = () => {
                 <Button variant="outline" onClick={() => setRequiresAuth(false)} className="flex-1">
                   Cancel
                 </Button>
-                <Button onClick={() => window.location.href = '/auth'} className="flex-1">
+                <Button onClick={() => navigate('/auth')} className="flex-1">
                   Sign In
                 </Button>
               </div>

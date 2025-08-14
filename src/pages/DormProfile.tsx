@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Building, MapPin, Camera, FileText, Share, Heart } from 'lucide-react';
+import { Building, MapPin, Camera, FileText, Share, Heart, HeartIcon } from 'lucide-react';
 import Layout from '@/components/Layout';
 
 interface DormProfile {
@@ -70,6 +70,88 @@ const DormProfile = () => {
     enabled: !!id
   });
 
+  // Check if dorm is already saved
+  const { data: isSaved } = useQuery({
+    queryKey: ['is-dorm-saved', id, user?.id],
+    queryFn: async () => {
+      if (!user || !id) return false;
+      
+      const { data, error } = await supabase
+        .from('saved_dorms')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('dorm_profile_id', id)
+        .single();
+      
+      if (error && error.code !== 'PGRST116') throw error;
+      return !!data;
+    },
+    enabled: !!user && !!id
+  });
+
+  // Save/unsave dorm mutation
+  const saveMutation = useMutation({
+    mutationFn: async () => {
+      if (!user || !id) throw new Error('User not authenticated or no dorm ID');
+      
+      if (isSaved) {
+        // Remove from saved
+        const { error } = await supabase
+          .from('saved_dorms')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('dorm_profile_id', id);
+        
+        if (error) throw error;
+      } else {
+        // Add to saved
+        const { error } = await supabase
+          .from('saved_dorms')
+          .insert({
+            user_id: user.id,
+            dorm_profile_id: id
+          });
+        
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['is-dorm-saved'] });
+      queryClient.invalidateQueries({ queryKey: ['saved-dorms'] });
+      toast({
+        title: isSaved ? "Removed from saved" : "Saved successfully",
+        description: isSaved 
+          ? "This dorm has been removed from your saved list." 
+          : "This dorm has been added to your saved list.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to update saved status. Please try again.",
+        variant: "destructive",
+      });
+      console.error('Save mutation error:', error);
+    }
+  });
+
+  const handleShare = async () => {
+    try {
+      await navigator.share({
+        title: `${profile?.dorm_name} - Dorm Scout`,
+        text: `Check out this dorm: ${profile?.dorm_name}`,
+        url: window.location.href,
+      });
+    } catch (error) {
+      // Fallback to copying to clipboard
+      await navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "Link copied",
+        description: "Dorm link has been copied to your clipboard.",
+      });
+    }
+  };
+
   if (isLoading) {
     return (
       <Layout showBackButton>
@@ -117,11 +199,21 @@ const DormProfile = () => {
               {new Date(profile.created_at).toLocaleDateString()}
             </Badge>
             <div className="flex items-center space-x-2">
-              <Button variant="ghost" size="sm">
-                <Heart className="h-4 w-4 mr-2" />
-                Save
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => saveMutation.mutate()}
+                disabled={!user || saveMutation.isPending}
+                className={isSaved ? "text-red-500 hover:text-red-600" : ""}
+              >
+                <Heart className={`h-4 w-4 mr-2 ${isSaved ? 'fill-current' : ''}`} />
+                {isSaved ? 'Saved' : 'Save'}
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={handleShare}
+              >
                 <Share className="h-4 w-4 mr-2" />
                 Share
               </Button>
