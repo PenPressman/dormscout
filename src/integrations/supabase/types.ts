@@ -260,9 +260,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_public_profile: {
+        Args: { profile_user_id: string }
+        Returns: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          school_id: string
+          updated_at: string
+          user_id: string
+          verified_at: string
+        }[]
+      }
       get_user_school_id: {
         Args: { user_uuid: string }
         Returns: string
+      }
+      user_can_access_school_content: {
+        Args: { content_user_id: string }
+        Returns: boolean
       }
     }
     Enums: {
