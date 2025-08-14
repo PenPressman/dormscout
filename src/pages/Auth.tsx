@@ -5,12 +5,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Checkbox } from '@/components/ui/checkbox';
 import { GraduationCap, Mail, Lock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [agreeTos, setAgreeTos] = useState(false);
+  const [agreePrivacy, setAgreePrivacy] = useState(false);
+  const [consentError, setConsentError] = useState('');
   const { signIn, signUp, user } = useAuth();
 
   useEffect(() => {
@@ -29,8 +34,16 @@ const Auth = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    setConsentError('');
+    
+    // Check consent checkboxes
+    if (!agreeTos || !agreePrivacy) {
+      setConsentError('You must agree to continue.');
+      return;
+    }
+    
     setLoading(true);
-    await signUp(email, password);
+    await signUp(email, password, agreeTos, agreePrivacy);
     setLoading(false);
   };
 
@@ -128,7 +141,76 @@ const Auth = () => {
                     Minimum 6 characters
                   </p>
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                
+                {/* Consent Checkboxes */}
+                <div className="space-y-4 pt-2">
+                  <div className="flex items-start space-x-3">
+                    <Checkbox 
+                      id="agree-tos"
+                      checked={agreeTos}
+                      onCheckedChange={(checked) => setAgreeTos(checked === true)}
+                      aria-describedby="consent-error"
+                    />
+                    <div className="grid gap-1.5 leading-none">
+                      <Label 
+                        htmlFor="agree-tos"
+                        className="text-sm font-normal leading-relaxed cursor-pointer"
+                      >
+                        I agree to the{' '}
+                        <Link 
+                          to="/legal/terms-of-service" 
+                          className="text-primary hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Dorm Scout Terms of Service
+                        </Link>
+                      </Label>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <Checkbox 
+                      id="agree-privacy"
+                      checked={agreePrivacy}
+                      onCheckedChange={(checked) => setAgreePrivacy(checked === true)}
+                      aria-describedby="consent-error"
+                    />
+                    <div className="grid gap-1.5 leading-none">
+                      <Label 
+                        htmlFor="agree-privacy"
+                        className="text-sm font-normal leading-relaxed cursor-pointer"
+                      >
+                        I have read the{' '}
+                        <Link 
+                          to="/legal/privacy-policy" 
+                          className="text-primary hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Privacy Policy
+                        </Link>
+                      </Label>
+                    </div>
+                  </div>
+                  
+                  {consentError && (
+                    <div 
+                      id="consent-error"
+                      className="text-sm text-destructive" 
+                      role="alert"
+                      aria-live="polite"
+                    >
+                      {consentError}
+                    </div>
+                  )}
+                </div>
+                
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  disabled={loading || !agreeTos || !agreePrivacy}
+                >
                   {loading ? 'Creating account...' : 'Create Account'}
                 </Button>
               </form>

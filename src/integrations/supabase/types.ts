@@ -207,6 +207,9 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          latest_consented_at: string | null
+          latest_privacy_version: string | null
+          latest_tos_version: string | null
           role: Database["public"]["Enums"]["app_role"]
           school_id: string | null
           updated_at: string
@@ -217,6 +220,9 @@ export type Database = {
           created_at?: string
           email: string
           id?: string
+          latest_consented_at?: string | null
+          latest_privacy_version?: string | null
+          latest_tos_version?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           school_id?: string | null
           updated_at?: string
@@ -227,6 +233,9 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
+          latest_consented_at?: string | null
+          latest_privacy_version?: string | null
+          latest_tos_version?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           school_id?: string | null
           updated_at?: string
@@ -346,6 +355,42 @@ export type Database = {
           primary_color?: string | null
           status?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      user_consents: {
+        Row: {
+          consented_at: string
+          created_at: string
+          id: string
+          ip_address: string | null
+          privacy_version: string
+          tos_version: string
+          updated_at: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          consented_at?: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          privacy_version: string
+          tos_version: string
+          updated_at?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          consented_at?: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          privacy_version?: string
+          tos_version?: string
+          updated_at?: string
+          user_agent?: string | null
+          user_id?: string
         }
         Relationships: []
       }

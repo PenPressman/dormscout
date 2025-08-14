@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import ConsentGuard from "@/components/ConsentGuard";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -16,6 +17,9 @@ import SavedDorms from "./pages/SavedDorms";
 import MyPosts from "./pages/MyPosts";
 import About from "./pages/About";
 import EmailVerified from "./pages/EmailVerified";
+import TermsOfService from "./pages/legal/TermsOfService";
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import AdminConsents from "./pages/admin/Consents";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +30,8 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
+          <ConsentGuard>
+            <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/email-verified" element={<EmailVerified />} />
@@ -38,12 +43,16 @@ const App = () => (
             <Route path="/saved" element={<SavedDorms />} />
             <Route path="/my-posts" element={<MyPosts />} />
             <Route path="/about" element={<About />} />
+            <Route path="/legal/terms-of-service" element={<TermsOfService />} />
+            <Route path="/legal/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/admin/consents" element={<AdminConsents />} />
             {/* Legacy routes for backward compatibility */}
             <Route path="/search" element={<FindDorm />} />
             <Route path="/upload" element={<ShareDorm />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </ConsentGuard>
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

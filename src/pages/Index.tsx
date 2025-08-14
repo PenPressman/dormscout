@@ -161,6 +161,24 @@ const Index = () => {
               Contact
             </a>
           </div>
+          
+          {/* Privacy Note */}
+          <div className="mt-6 pt-6 border-t border-border">
+            <div className="max-w-3xl mx-auto text-center">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                <span className="font-medium text-foreground">Privacy note:</span> Dorm Scout is not affiliated with any university. 
+                Content is user-submitted and may be inaccurate. We collect only what's needed to run the site and never sell your data. 
+                See our{' '}
+                <Link 
+                  to="/legal/privacy-policy" 
+                  className="text-primary hover:underline font-medium"
+                >
+                  Privacy Policy
+                </Link>
+                {' '}for details.
+              </p>
+            </div>
+          </div>
         </div>
       </footer>
 

@@ -7,9 +7,10 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, acceptTos?: boolean, acceptPrivacy?: boolean) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
+  recordConsent: (tosVersion: string, privacyVersion: string) => Promise<{ error: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (email: string, password: string, acceptTos: boolean = false, acceptPrivacy: boolean = false) => {
     try {
       console.log('Starting signup process for:', email);
       
@@ -70,6 +71,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const error = { message: 'Please use your verified school email address from one of the supported universities.' };
         toast({
           title: "Invalid email domain",
+          description: error.message,
+          variant: "destructive",
+        });
+        return { error };
+      }
+
+      // Check consent requirements
+      if (!acceptTos || !acceptPrivacy) {
+        console.log('Consent not provided');
+        const error = { message: 'Consent required to create a Dorm Scout account.' };
+        toast({
+          title: "Consent required",
           description: error.message,
           variant: "destructive",
         });
@@ -172,6 +185,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const recordConsent = async (tosVersion: string, privacyVersion: string) => {
+    try {
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      const { error } = await supabase
+        .from('user_consents')
+        .insert({
+          user_id: user.id,
+          tos_version: tosVersion,
+          privacy_version: privacyVersion,
+          ip_address: null, // Could be captured from client if needed
+          user_agent: navigator.userAgent
+        });
+
+      if (error) throw error;
+
+      // Update profile with latest consent info
+      await supabase
+        .from('profiles')
+        .update({
+          latest_tos_version: tosVersion,
+          latest_privacy_version: privacyVersion,
+          latest_consented_at: new Date().toISOString()
+        })
+        .eq('user_id', user.id);
+
+      return { error: null };
+    } catch (error: any) {
+      console.error('Consent recording error:', error);
+      return { error };
+    }
+  };
+
   const value = {
     user,
     session,
@@ -179,6 +227,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signUp,
     signIn,
     signOut,
+    recordConsent,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
