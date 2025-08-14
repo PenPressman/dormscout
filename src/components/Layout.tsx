@@ -1,7 +1,8 @@
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { Search, Upload, ArrowLeft } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Search, Upload, ArrowLeft, Menu, Heart, Edit, LogOut, LogIn } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,9 +12,18 @@ interface LayoutProps {
 const Layout = ({ children, showBackButton = false }: LayoutProps) => {
   const { user, signOut } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path: string) => {
     return location.pathname === path;
+  };
+
+  const handleMenuNavigation = (path: string) => {
+    if (!user && (path === '/find' || path === '/share' || path === '/my-posts' || path === '/saved')) {
+      navigate('/auth');
+      return;
+    }
+    navigate(path);
   };
 
   return (
@@ -66,6 +76,44 @@ const Layout = ({ children, showBackButton = false }: LayoutProps) => {
             )}
 
             <div className="flex items-center space-x-4">
+              {/* Menu Button */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    <Menu className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem onClick={() => handleMenuNavigation('/find')}>
+                    <Search className="h-4 w-4 mr-2" />
+                    Find a Dorm
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleMenuNavigation('/share')}>
+                    <Upload className="h-4 w-4 mr-2" />
+                    Share a Dorm
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleMenuNavigation('/my-posts')}>
+                    <Edit className="h-4 w-4 mr-2" />
+                    View Your Posts
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleMenuNavigation('/saved')}>
+                    <Heart className="h-4 w-4 mr-2" />
+                    View Saved Dorms
+                  </DropdownMenuItem>
+                  {user ? (
+                    <DropdownMenuItem onClick={signOut}>
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem onClick={() => navigate('/auth')}>
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Sign In
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               {user ? (
                 <Button variant="outline" size="sm" onClick={signOut}>
                   Sign Out
