@@ -369,7 +369,7 @@ export type Database = {
           dorm_name: string
           id: string
           notes: string
-          photos_decorated: string
+          photos_decorated: string[]
           photos_empty: string[]
           published: boolean
           room_number: string
@@ -395,7 +395,9 @@ export type Database = {
         Returns: string
       }
       search_dorm_profiles_secure: {
-        Args: { search_school_id: string; search_term?: string }
+        Args:
+          | { filter_school_id?: string; search_term?: string }
+          | { search_school_id: string; search_term?: string }
         Returns: {
           contact_email: string
           contact_enabled: boolean
@@ -410,6 +412,7 @@ export type Database = {
           published: boolean
           room_number: string
           school_id: string
+          school_name: string
           updated_at: string
           user_id: string
         }[]

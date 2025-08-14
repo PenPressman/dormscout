@@ -12,12 +12,20 @@ import Layout from '@/components/Layout';
 
 interface DormProfile {
   id: string;
+  user_id: string;
+  school_id: string;
   dorm_name: string;
   room_number?: string;
   photos_empty?: string[];
   photos_decorated?: string[];
   notes?: string;
+  published: boolean;
   created_at: string;
+  updated_at: string;
+  contact_enabled: boolean;
+  contact_first_name?: string;
+  contact_last_initial?: string;
+  contact_email?: string;
   school?: {
     name: string;
     primary_color?: string;
