@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Search, Upload, Sparkles, Menu, Heart, Edit, LogOut, LogIn } from 'lucide-react';
+import { Search, Upload, Building, Menu, Heart, Edit, LogOut, LogIn } from 'lucide-react';
 
 const Index = () => {
   const { user, loading, signOut } = useAuth();
@@ -36,10 +36,10 @@ const Index = () => {
       <header className="bg-white border-b shadow-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <div className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-dorm-pink to-dorm-orange rounded-full">
-              <Sparkles className="h-6 w-6 text-white" />
+            <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-2 rounded-lg">
+              <Building className="h-5 w-5" />
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent">
               Dorm Scout
             </h1>
           </div>
@@ -88,8 +88,8 @@ const Index = () => {
         {/* Hero Section */}
         <section className="text-center mb-16">
           <div className="mb-8">
-            <div className="inline-flex items-center justify-center p-4 bg-gradient-to-r from-dorm-pink to-dorm-orange rounded-full mb-6">
-              <Sparkles className="h-12 w-12 text-white" />
+            <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-4 rounded-lg mb-6 inline-flex">
+              <Building className="h-12 w-12" />
             </div>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-dorm-pink via-dorm-orange to-dorm-blue bg-clip-text text-transparent">
