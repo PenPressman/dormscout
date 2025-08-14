@@ -52,6 +52,14 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))'
+				},
+				'dorm-pink': 'hsl(var(--dorm-pink))',
+				'dorm-orange': 'hsl(var(--dorm-orange))',
+				'dorm-blue': 'hsl(var(--dorm-blue))',
+				'dorm-green': 'hsl(var(--dorm-green))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

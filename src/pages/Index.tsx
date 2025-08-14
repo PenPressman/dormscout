@@ -2,8 +2,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Search, Upload, Camera, Users, GraduationCap } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Search, Upload, Sparkles } from 'lucide-react';
 import Layout from '@/components/Layout';
 
 const Index = () => {
@@ -11,7 +11,6 @@ const Index = () => {
 
   useEffect(() => {
     if (!loading && !user) {
-      // Redirect to auth page if not logged in
       window.location.href = '/auth';
     }
   }, [user, loading]);
@@ -30,139 +29,62 @@ const Index = () => {
   }
 
   if (!user) {
-    return null; // Will redirect to auth
+    return null;
   }
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8 pb-20 md:pb-8">
+      <div className="container mx-auto px-4 py-12 pb-24 md:pb-12">
         {/* Hero Section */}
-        <section className="text-center mb-12">
-          <div className="mb-6">
-            <GraduationCap className="h-16 w-16 mx-auto text-primary mb-4" />
+        <section className="text-center mb-16">
+          <div className="mb-8">
+            <div className="inline-flex items-center justify-center p-4 bg-gradient-to-r from-dorm-pink to-dorm-orange rounded-full mb-6">
+              <Sparkles className="h-12 w-12 text-white" />
+            </div>
           </div>
-          <h1 className="text-4xl font-bold mb-4">Welcome to DormVision</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover what your dorm room really looks like. Browse photos from past residents and share your own room setup to help future students.
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-dorm-pink via-dorm-orange to-dorm-blue bg-clip-text text-transparent">
+            Dorm Scout
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            Discover your perfect dorm room before you move in
           </p>
         </section>
 
-        {/* Quick Actions */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex items-center space-x-2">
-                <Search className="h-6 w-6 text-primary" />
-                <CardTitle>Find Your Room</CardTitle>
+        {/* Main Action Cards */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
+          <Card className="group hover:shadow-2xl transition-all duration-300 hover:scale-105 border-0 bg-gradient-to-br from-dorm-pink/10 to-dorm-pink/5">
+            <CardContent className="p-8 text-center">
+              <div className="mb-6">
+                <div className="inline-flex items-center justify-center p-4 bg-dorm-pink rounded-2xl mb-4">
+                  <Search className="h-8 w-8 text-white" />
+                </div>
               </div>
-              <CardDescription>
-                Search for your dorm building and room number to see photos and tips from previous residents.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link to="/search">
-                <Button className="w-full">
-                  Start Searching
+              <h2 className="text-2xl font-bold mb-4 text-foreground">Find a Dorm</h2>
+              <p className="text-muted-foreground mb-6">
+                Search for dorms and see real photos from students
+              </p>
+              <Link to="/find">
+                <Button size="lg" className="w-full text-lg py-6">
+                  Start Exploring
                 </Button>
               </Link>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex items-center space-x-2">
-                <Upload className="h-6 w-6 text-primary" />
-                <CardTitle>Share Your Room</CardTitle>
+          <Card className="group hover:shadow-2xl transition-all duration-300 hover:scale-105 border-0 bg-gradient-to-br from-dorm-orange/10 to-dorm-orange/5">
+            <CardContent className="p-8 text-center">
+              <div className="mb-6">
+                <div className="inline-flex items-center justify-center p-4 bg-dorm-orange rounded-2xl mb-4">
+                  <Upload className="h-8 w-8 text-white" />
+                </div>
               </div>
-              <CardDescription>
-                Upload photos of your dorm room to help future residents know what to expect.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Link to="/upload">
-                <Button className="w-full" variant="outline">
-                  Upload Photos
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow md:col-span-2 lg:col-span-1">
-            <CardHeader>
-              <div className="flex items-center space-x-2">
-                <Users className="h-6 w-6 text-primary" />
-                <CardTitle>Community Driven</CardTitle>
-              </div>
-              <CardDescription>
-                Join thousands of students sharing dorm experiences across university campuses.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-sm text-muted-foreground">
-                <p>✓ Verified school email only</p>
-                <p>✓ Safe and moderated content</p>
-                <p>✓ Help future residents</p>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Photo Categories */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 text-center">What You Can Find</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="text-center">
-              <CardHeader>
-                <Camera className="h-8 w-8 text-primary mx-auto mb-2" />
-                <CardTitle className="text-lg">Empty Rooms</CardTitle>
-                <CardDescription>
-                  See the bare room layout and dimensions before you move in.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <Camera className="h-8 w-8 text-primary mx-auto mb-2" />
-                <CardTitle className="text-lg">Designed Rooms</CardTitle>
-                <CardDescription>
-                  Get inspiration from how past students decorated and organized their space.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="text-center">
-              <CardHeader>
-                <Camera className="h-8 w-8 text-primary mx-auto mb-2" />
-                <CardTitle className="text-lg">Tips & Details</CardTitle>
-                <CardDescription>
-                  Read helpful tips about storage, furniture, and room-specific advice.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
-        </section>
-
-        {/* Call to Action */}
-        <section className="text-center">
-          <Card className="bg-primary/5 border-primary/20">
-            <CardHeader>
-              <CardTitle className="text-2xl">Ready to Explore?</CardTitle>
-              <CardDescription className="text-lg">
-                Start by searching for your dorm or sharing your current room setup.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/search">
-                <Button size="lg" className="w-full sm:w-auto">
-                  <Search className="h-4 w-4 mr-2" />
-                  Search Rooms
-                </Button>
-              </Link>
-              <Link to="/upload">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                  <Upload className="h-4 w-4 mr-2" />
-                  Upload Photos
+              <h2 className="text-2xl font-bold mb-4 text-foreground">Share a Dorm</h2>
+              <p className="text-muted-foreground mb-6">
+                Help others by sharing your dorm experience
+              </p>
+              <Link to="/share">
+                <Button variant="secondary" size="lg" className="w-full text-lg py-6">
+                  Share Your Room
                 </Button>
               </Link>
             </CardContent>

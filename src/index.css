@@ -8,35 +8,49 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dorm Scout Brand Colors */
+    --background: 0 0% 99.2%; /* Off-White #FDFDFD */
+    --foreground: 0 0% 16.9%; /* Charcoal #2B2B2B */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 220 13% 95.3%; /* Light Gray #F3F4F6 */
+    --card-foreground: 0 0% 16.9%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 99.2%;
+    --popover-foreground: 0 0% 16.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Dorm Pink as primary */
+    --primary: 334 100% 63.3%; /* #FF5FA2 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Dorm Orange as secondary */
+    --secondary: 22 100% 61.6%; /* #FF8A3D */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 220 13% 95.3%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Dorm Blue for accents */
+    --accent: 211 100% 61.2%; /* #3D9EFF */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 334 100% 63.3%;
 
-    --radius: 0.5rem;
+    /* Dorm Green for success */
+    --success: 142 76% 60%; /* #4ADE80 */
+    --success-foreground: 0 0% 100%;
+
+    /* Additional Dorm Scout colors */
+    --dorm-pink: 334 100% 63.3%; /* #FF5FA2 */
+    --dorm-orange: 22 100% 61.6%; /* #FF8A3D */
+    --dorm-blue: 211 100% 61.2%; /* #3D9EFF */
+    --dorm-green: 142 76% 60%; /* #4ADE80 */
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -65,24 +79,27 @@ All colors MUST be HSL.
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 334 100% 63.3%; /* Keep Dorm Pink in dark mode */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 22 100% 61.6%; /* Keep Dorm Orange in dark mode */
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 211 100% 61.2%; /* Keep Dorm Blue in dark mode */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 334 100% 63.3%;
+
+    --success: 142 76% 60%; /* Keep Dorm Green in dark mode */
+    --success-foreground: 0 0% 100%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
