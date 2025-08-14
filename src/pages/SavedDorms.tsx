@@ -11,17 +11,13 @@ import { useToast } from '@/hooks/use-toast';
 
 interface SavedDorm {
   id: string;
-  dorm_profiles: {
-    id: string;
-    dorm_name: string;
-    room_number?: string;
-    photos_empty?: string[];
-    photos_decorated?: string[];
-    notes?: string;
-    schools: {
-      name: string;
-    };
-  };
+  dorm_profile_id: string;
+  dorm_name: string;
+  room_number?: string;
+  photos_empty?: string[];
+  photos_decorated?: string[];
+  notes?: string;
+  school_name: string;
 }
 
 const SavedDorms = () => {
@@ -29,31 +25,56 @@ const SavedDorms = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Fetch saved dorms
+  // Fetch saved dorms with manual join
   const { data: savedDorms, isLoading } = useQuery({
     queryKey: ['saved-dorms', user?.id],
     queryFn: async () => {
       if (!user) return [];
       
-      const { data, error } = await supabase
+      // First get saved dorm IDs
+      const { data: savedDormIds, error: savedError } = await supabase
         .from('saved_dorms')
+        .select('id, dorm_profile_id')
+        .eq('user_id', user.id);
+      
+      if (savedError) throw savedError;
+      if (!savedDormIds || savedDormIds.length === 0) return [];
+
+      // Then get the dorm profiles
+      const profileIds = savedDormIds.map(s => s.dorm_profile_id);
+      const { data: profiles, error: profilesError } = await supabase
+        .from('dorm_profiles')
         .select(`
           id,
-          dorm_profiles!inner(
-            id,
-            dorm_name,
-            room_number,
-            photos_empty,
-            photos_decorated,
-            notes,
-            schools!inner(name)
-          )
+          dorm_name,
+          room_number,
+          photos_empty,
+          photos_decorated,
+          notes,
+          schools!inner(name)
         `)
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .in('id', profileIds)
+        .eq('published', true);
       
-      if (error) throw error;
-      return data || [];
+      if (profilesError) throw profilesError;
+      if (!profiles) return [];
+
+      // Combine the data
+      return savedDormIds.map(saved => {
+        const profile = profiles.find(p => p.id === saved.dorm_profile_id);
+        if (!profile) return null;
+        
+        return {
+          id: saved.id,
+          dorm_profile_id: profile.id,
+          dorm_name: profile.dorm_name,
+          room_number: profile.room_number,
+          photos_empty: profile.photos_empty,
+          photos_decorated: profile.photos_decorated,
+          notes: profile.notes,
+          school_name: profile.schools?.name || 'Unknown School'
+        };
+      }).filter(Boolean) as SavedDorm[];
     },
     enabled: !!user
   });
@@ -131,17 +152,17 @@ const SavedDorms = () => {
               <Card key={saved.id} className="group hover:shadow-xl transition-all duration-300 hover:scale-105 border-0 bg-white">
                 <CardContent className="p-6">
                   <div className="mb-4">
-                    {(saved.dorm_profiles.photos_empty?.[0] || saved.dorm_profiles.photos_decorated?.[0]) && (
+                    {(saved.photos_empty?.[0] || saved.photos_decorated?.[0]) && (
                       <div className="w-full h-48 bg-muted rounded-lg mb-4 overflow-hidden">
                         <img
-                          src={saved.dorm_profiles.photos_empty?.[0] || saved.dorm_profiles.photos_decorated?.[0]}
-                          alt={`${saved.dorm_profiles.dorm_name} room`}
+                          src={saved.photos_empty?.[0] || saved.photos_decorated?.[0]}
+                          alt={`${saved.dorm_name} room`}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                         />
                       </div>
                     )}
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-bold">{saved.dorm_profiles.dorm_name}</h3>
+                      <h3 className="text-lg font-bold">{saved.dorm_name}</h3>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -154,18 +175,18 @@ const SavedDorms = () => {
                     </div>
                     <p className="text-sm text-muted-foreground mb-2">
                       <Building className="h-4 w-4 inline mr-1" />
-                      {saved.dorm_profiles.schools.name}
+                      {saved.school_name}
                     </p>
-                    {saved.dorm_profiles.room_number && (
-                      <p className="text-sm text-muted-foreground mb-2">Room {saved.dorm_profiles.room_number}</p>
+                    {saved.room_number && (
+                      <p className="text-sm text-muted-foreground mb-2">Room {saved.room_number}</p>
                     )}
-                    {saved.dorm_profiles.notes && (
+                    {saved.notes && (
                       <p className="text-sm text-muted-foreground line-clamp-3">
-                        {saved.dorm_profiles.notes.substring(0, 120)}...
+                        {saved.notes.substring(0, 120)}...
                       </p>
                     )}
                   </div>
-                  <Link to={`/dorm/${saved.dorm_profiles.id}`}>
+                  <Link to={`/dorm/${saved.dorm_profile_id}`}>
                     <Button variant="dorm" className="w-full">
                       View Details
                     </Button>

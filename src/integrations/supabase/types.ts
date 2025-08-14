@@ -309,7 +309,15 @@ export type Database = {
           id?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "saved_dorms_dorm_profile_id_fkey"
+            columns: ["dorm_profile_id"]
+            isOneToOne: false
+            referencedRelation: "dorm_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       schools: {
         Row: {
