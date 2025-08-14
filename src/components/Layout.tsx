@@ -44,13 +44,18 @@ const Layout = ({ children, showBackButton = false }: LayoutProps) => {
                   Back
                 </Button>
               )}
-              <Link to="/" className="flex items-center space-x-2">
-                <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-2 rounded-xl">
+              <Link to="/" className="flex items-center space-x-3">
+                <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-2 rounded-xl shadow-lg">
                   <Search className="h-6 w-6" />
                 </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent">
-                  Dorm Scout
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent leading-tight">
+                    Dorm Scout
+                  </span>
+                  <span className="text-xs text-muted-foreground leading-tight">
+                    Find Your Perfect Dorm
+                  </span>
+                </div>
               </Link>
             </div>
             
