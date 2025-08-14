@@ -138,6 +138,7 @@ const Auth = () => {
           <div className="mt-6 text-center text-sm text-muted-foreground">
             <p>Supported schools:</p>
             <p>UC Berkeley • Stanford • Harvard • MIT</p>
+            <p className="text-xs mt-1">(@berkeley.edu, @stanford.edu, @harvard.edu, @mit.edu, @college.harvard.edu)</p>
           </div>
         </CardContent>
       </Card>

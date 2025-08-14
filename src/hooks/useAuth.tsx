@@ -50,17 +50,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signUp = async (email: string, password: string) => {
     try {
+      console.log('Starting signup process for:', email);
+      
       // Check if email is from a supported school domain
-      const supportedDomains = ['berkeley.edu', 'stanford.edu', 'harvard.edu', 'mit.edu'];
+      const supportedDomains = ['berkeley.edu', 'stanford.edu', 'harvard.edu', 'mit.edu', 'college.harvard.edu'];
       const emailDomain = email.split('@')[1];
+      console.log('Email domain:', emailDomain);
+      console.log('Supported domains:', supportedDomains);
       
       if (!supportedDomains.includes(emailDomain)) {
-        return { error: { message: 'Please use your school email address (.edu domain)' } };
+        console.log('Domain not supported');
+        const error = { message: 'Please use your school email address (.edu domain). Supported: berkeley.edu, stanford.edu, harvard.edu, mit.edu, college.harvard.edu' };
+        toast({
+          title: "Invalid email domain",
+          description: error.message,
+          variant: "destructive",
+        });
+        return { error };
       }
 
       const redirectUrl = `${window.location.origin}/`;
+      console.log('Redirect URL:', redirectUrl);
       
-      const { error } = await supabase.auth.signUp({
+      console.log('Calling supabase.auth.signUp...');
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -68,7 +81,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       });
 
+      console.log('Signup response:', { data, error });
+
       if (error) {
+        console.error('Signup error:', error);
         toast({
           title: "Sign up failed",
           description: error.message,
@@ -77,16 +93,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return { error };
       }
 
+      console.log('Signup successful');
       toast({
-        title: "Check your email",
-        description: "Please verify your email address to complete registration.",
+        title: "Account created successfully!",
+        description: "You can now sign in with your credentials.",
       });
 
       return { error: null };
     } catch (error: any) {
+      console.error('Signup catch error:', error);
       toast({
         title: "Sign up failed",
-        description: error.message,
+        description: error.message || 'An unexpected error occurred',
         variant: "destructive",
       });
       return { error };
