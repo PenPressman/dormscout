@@ -317,6 +317,13 @@ export type Database = {
             referencedRelation: "dorm_profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "saved_dorms_dorm_profile_id_fkey"
+            columns: ["dorm_profile_id"]
+            isOneToOne: false
+            referencedRelation: "dorm_profiles_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       schools: {
@@ -351,9 +358,74 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      dorm_profiles_public: {
+        Row: {
+          contact_email: string | null
+          contact_enabled: boolean | null
+          contact_first_name: string | null
+          contact_last_initial: string | null
+          created_at: string | null
+          dorm_name: string | null
+          id: string | null
+          notes: string | null
+          photos_decorated: string[] | null
+          photos_empty: string[] | null
+          published: boolean | null
+          room_number: string | null
+          school_id: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          contact_email?: never
+          contact_enabled?: never
+          contact_first_name?: never
+          contact_last_initial?: never
+          created_at?: string | null
+          dorm_name?: string | null
+          id?: string | null
+          notes?: string | null
+          photos_decorated?: string[] | null
+          photos_empty?: string[] | null
+          published?: boolean | null
+          room_number?: string | null
+          school_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          contact_email?: never
+          contact_enabled?: never
+          contact_first_name?: never
+          contact_last_initial?: never
+          created_at?: string | null
+          dorm_name?: string | null
+          id?: string | null
+          notes?: string | null
+          photos_decorated?: string[] | null
+          photos_empty?: string[] | null
+          published?: boolean | null
+          room_number?: string | null
+          school_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dorm_profiles_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
+      can_view_contact_info: {
+        Args: { profile_school_id: string; profile_user_id: string }
+        Returns: boolean
+      }
       create_user_profile: {
         Args: { new_email: string; new_school_id: string; new_user_id: string }
         Returns: undefined
