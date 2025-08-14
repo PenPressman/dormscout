@@ -1,7 +1,7 @@
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Search, Upload, ArrowLeft, Menu, Heart, Edit, LogOut, LogIn } from 'lucide-react';
+import { Search, Upload, ArrowLeft, Menu, Heart, Edit, LogOut, LogIn, Building } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 interface LayoutProps {
@@ -45,17 +45,12 @@ const Layout = ({ children, showBackButton = false }: LayoutProps) => {
                 </Button>
               )}
               <Link to="/" className="flex items-center space-x-3">
-                <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-2 rounded-xl shadow-lg">
-                  <Search className="h-6 w-6" />
+                <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-2 rounded-lg">
+                  <Building className="h-5 w-5" />
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent leading-tight">
-                    Dorm Scout
-                  </span>
-                  <span className="text-xs text-muted-foreground leading-tight">
-                    Find Your Perfect Dorm
-                  </span>
-                </div>
+                <span className="text-xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent">
+                  Dorm Scout
+                </span>
               </Link>
             </div>
             
