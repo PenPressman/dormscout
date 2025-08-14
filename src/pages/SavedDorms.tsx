@@ -11,14 +11,14 @@ import { useToast } from '@/hooks/use-toast';
 
 interface SavedDorm {
   id: string;
-  dorm_profile: {
+  dorm_profiles: {
     id: string;
     dorm_name: string;
     room_number?: string;
     photos_empty?: string[];
     photos_decorated?: string[];
     notes?: string;
-    school: {
+    schools: {
       name: string;
     };
   };
@@ -131,17 +131,17 @@ const SavedDorms = () => {
               <Card key={saved.id} className="group hover:shadow-xl transition-all duration-300 hover:scale-105 border-0 bg-white">
                 <CardContent className="p-6">
                   <div className="mb-4">
-                    {(saved.dorm_profile.photos_empty?.[0] || saved.dorm_profile.photos_decorated?.[0]) && (
+                    {(saved.dorm_profiles.photos_empty?.[0] || saved.dorm_profiles.photos_decorated?.[0]) && (
                       <div className="w-full h-48 bg-muted rounded-lg mb-4 overflow-hidden">
                         <img
-                          src={saved.dorm_profile.photos_empty?.[0] || saved.dorm_profile.photos_decorated?.[0]}
-                          alt={`${saved.dorm_profile.dorm_name} room`}
+                          src={saved.dorm_profiles.photos_empty?.[0] || saved.dorm_profiles.photos_decorated?.[0]}
+                          alt={`${saved.dorm_profiles.dorm_name} room`}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                         />
                       </div>
                     )}
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-bold">{saved.dorm_profile.dorm_name}</h3>
+                      <h3 className="text-lg font-bold">{saved.dorm_profiles.dorm_name}</h3>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -154,18 +154,18 @@ const SavedDorms = () => {
                     </div>
                     <p className="text-sm text-muted-foreground mb-2">
                       <Building className="h-4 w-4 inline mr-1" />
-                      {saved.dorm_profile.school.name}
+                      {saved.dorm_profiles.schools.name}
                     </p>
-                    {saved.dorm_profile.room_number && (
-                      <p className="text-sm text-muted-foreground mb-2">Room {saved.dorm_profile.room_number}</p>
+                    {saved.dorm_profiles.room_number && (
+                      <p className="text-sm text-muted-foreground mb-2">Room {saved.dorm_profiles.room_number}</p>
                     )}
-                    {saved.dorm_profile.notes && (
+                    {saved.dorm_profiles.notes && (
                       <p className="text-sm text-muted-foreground line-clamp-3">
-                        {saved.dorm_profile.notes.substring(0, 120)}...
+                        {saved.dorm_profiles.notes.substring(0, 120)}...
                       </p>
                     )}
                   </div>
-                  <Link to={`/dorm/${saved.dorm_profile.id}`}>
+                  <Link to={`/dorm/${saved.dorm_profiles.id}`}>
                     <Button variant="dorm" className="w-full">
                       View Details
                     </Button>
