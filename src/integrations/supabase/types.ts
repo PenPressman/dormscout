@@ -260,6 +260,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_user_profile: {
+        Args: { new_email: string; new_school_id: string; new_user_id: string }
+        Returns: undefined
+      }
       get_public_profile: {
         Args: { profile_user_id: string }
         Returns: {
