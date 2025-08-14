@@ -49,6 +49,56 @@ export type Database = {
           },
         ]
       }
+      dorm_profiles: {
+        Row: {
+          created_at: string
+          dorm_name: string
+          id: string
+          notes: string | null
+          photos_decorated: string[] | null
+          photos_empty: string[] | null
+          published: boolean
+          room_number: string | null
+          school_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dorm_name: string
+          id?: string
+          notes?: string | null
+          photos_decorated?: string[] | null
+          photos_empty?: string[] | null
+          published?: boolean
+          room_number?: string | null
+          school_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dorm_name?: string
+          id?: string
+          notes?: string | null
+          photos_decorated?: string[] | null
+          photos_empty?: string[] | null
+          published?: boolean
+          room_number?: string | null
+          school_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dorm_profiles_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       photos: {
         Row: {
           caption: string | null
@@ -234,6 +284,7 @@ export type Database = {
           domain_whitelist: string[]
           id: string
           name: string
+          primary_color: string | null
           status: string
           updated_at: string
         }
@@ -242,6 +293,7 @@ export type Database = {
           domain_whitelist: string[]
           id?: string
           name: string
+          primary_color?: string | null
           status?: string
           updated_at?: string
         }
@@ -250,6 +302,7 @@ export type Database = {
           domain_whitelist?: string[]
           id?: string
           name?: string
+          primary_color?: string | null
           status?: string
           updated_at?: string
         }
