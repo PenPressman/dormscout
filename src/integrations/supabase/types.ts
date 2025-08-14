@@ -14,16 +14,260 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      buildings: {
+        Row: {
+          address: string | null
+          created_at: string
+          id: string
+          name: string
+          school_id: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          school_id: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          school_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "buildings_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      photos: {
+        Row: {
+          caption: string | null
+          created_at: string
+          faces_blurred: boolean
+          id: string
+          photo_type: Database["public"]["Enums"]["photo_type"]
+          room_id: string
+          storage_url: string
+          taken_at: string | null
+          thumbnail_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          faces_blurred?: boolean
+          id?: string
+          photo_type?: Database["public"]["Enums"]["photo_type"]
+          room_id: string
+          storage_url: string
+          taken_at?: string | null
+          thumbnail_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          faces_blurred?: boolean
+          id?: string
+          photo_type?: Database["public"]["Enums"]["photo_type"]
+          room_id?: string
+          storage_url?: string
+          taken_at?: string | null
+          thumbnail_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "photos_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          room_id: string
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          room_id: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          room_id?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posts_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          school_id: string | null
+          updated_at: string
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          school_id?: string | null
+          updated_at?: string
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          school_id?: string | null
+          updated_at?: string
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_school_id_fkey"
+            columns: ["school_id"]
+            isOneToOne: false
+            referencedRelation: "schools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rooms: {
+        Row: {
+          bed_type: string | null
+          building_id: string
+          created_at: string
+          dimensions: string | null
+          floor: number | null
+          id: string
+          notes: string | null
+          room_number: string
+          room_type: string | null
+          updated_at: string
+        }
+        Insert: {
+          bed_type?: string | null
+          building_id: string
+          created_at?: string
+          dimensions?: string | null
+          floor?: number | null
+          id?: string
+          notes?: string | null
+          room_number: string
+          room_type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bed_type?: string | null
+          building_id?: string
+          created_at?: string
+          dimensions?: string | null
+          floor?: number | null
+          id?: string
+          notes?: string | null
+          room_number?: string
+          room_type?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rooms_building_id_fkey"
+            columns: ["building_id"]
+            isOneToOne: false
+            referencedRelation: "buildings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      schools: {
+        Row: {
+          created_at: string
+          domain_whitelist: string[]
+          id: string
+          name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          domain_whitelist: string[]
+          id?: string
+          name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          domain_whitelist?: string[]
+          id?: string
+          name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_school_id: {
+        Args: { user_uuid: string }
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "user" | "moderator" | "admin"
+      photo_type: "empty" | "designed" | "detail"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +394,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["user", "moderator", "admin"],
+      photo_type: ["empty", "designed", "detail"],
+    },
   },
 } as const
