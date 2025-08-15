@@ -35,11 +35,7 @@ const Index = () => {
       {/* Mobile Header */}
       <header className="bg-white border-b shadow-sm safe-area-inset-top">
         <div className="container mx-auto px-4 py-3">
-          <MobileNavDrawer 
-            user={user}
-            onNavigate={handleAuthRequiredAction} 
-            onSignOut={signOut}
-          />
+          <MobileNavDrawer onNavigate={handleAuthRequiredAction} />
         </div>
       </header>
 
