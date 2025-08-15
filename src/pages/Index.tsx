@@ -84,61 +84,61 @@ const Index = () => {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-6 lg:py-12">
         {/* Hero Section */}
-        <section className="text-center mb-16">
-          <div className="mb-8">
-            <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-4 rounded-lg mb-6 inline-flex">
-              <Building className="h-12 w-12" />
+        <section className="text-center mb-8 lg:mb-16">
+          <div className="mb-4 lg:mb-8">
+            <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-3 lg:p-4 rounded-lg mb-4 lg:mb-6 inline-flex">
+              <Building className="h-8 w-8 lg:h-12 lg:w-12" />
             </div>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-dorm-pink via-dorm-orange to-dorm-blue bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 lg:mb-6 bg-gradient-to-r from-dorm-pink via-dorm-orange to-dorm-blue bg-clip-text text-transparent">
             Dorm Scout
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+          <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 lg:mb-8 px-4">
             Learn from earlier residents so you know what to expect!
           </p>
         </section>
 
         {/* Main Action Cards */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
-          <Card className="group hover:shadow-2xl transition-all duration-300 hover:scale-105 border-0 bg-gradient-to-br from-dorm-pink/10 to-dorm-pink/5">
-            <CardContent className="p-8 text-center">
-              <div className="mb-6">
-                <div className="inline-flex items-center justify-center p-4 bg-dorm-pink rounded-2xl mb-4">
-                  <Search className="h-8 w-8 text-white" />
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 mb-8 lg:mb-16 max-w-4xl mx-auto">
+          <Card className="group lg:hover:shadow-2xl transition-all duration-300 lg:hover:scale-105 border-0 bg-gradient-to-br from-dorm-pink/10 to-dorm-pink/5">
+            <CardContent className="p-6 lg:p-8 text-center">
+              <div className="mb-4 lg:mb-6">
+                <div className="inline-flex items-center justify-center p-3 lg:p-4 bg-dorm-pink rounded-2xl mb-3 lg:mb-4">
+                  <Search className="h-6 w-6 lg:h-8 lg:w-8 text-white" />
                 </div>
               </div>
-              <h2 className="text-2xl font-bold mb-4 text-foreground">Find a Dorm</h2>
-              <p className="text-muted-foreground mb-6">
+              <h2 className="text-xl lg:text-2xl font-bold mb-3 lg:mb-4 text-foreground">Find a Dorm</h2>
+              <p className="text-muted-foreground mb-4 lg:mb-6 text-sm lg:text-base">
                 Find your dorm, or dream dorm, and browse photos, reviews, and tips.
               </p>
               <Button 
                 onClick={() => handleAuthRequiredAction('/find')}
                 size="lg" 
-                className="w-full text-lg py-6"
+                className="w-full text-base lg:text-lg py-4 lg:py-6"
               >
                 Start Exploring
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="group hover:shadow-2xl transition-all duration-300 hover:scale-105 border-0 bg-gradient-to-br from-dorm-orange/10 to-dorm-orange/5">
-            <CardContent className="p-8 text-center">
-              <div className="mb-6">
-                <div className="inline-flex items-center justify-center p-4 bg-dorm-orange rounded-2xl mb-4">
-                  <Upload className="h-8 w-8 text-white" />
+          <Card className="group lg:hover:shadow-2xl transition-all duration-300 lg:hover:scale-105 border-0 bg-gradient-to-br from-dorm-orange/10 to-dorm-orange/5">
+            <CardContent className="p-6 lg:p-8 text-center">
+              <div className="mb-4 lg:mb-6">
+                <div className="inline-flex items-center justify-center p-3 lg:p-4 bg-dorm-orange rounded-2xl mb-3 lg:mb-4">
+                  <Upload className="h-6 w-6 lg:h-8 lg:w-8 text-white" />
                 </div>
               </div>
-              <h2 className="text-2xl font-bold mb-4 text-foreground">Share a Dorm</h2>
-              <p className="text-muted-foreground mb-6">
+              <h2 className="text-xl lg:text-2xl font-bold mb-3 lg:mb-4 text-foreground">Share a Dorm</h2>
+              <p className="text-muted-foreground mb-4 lg:mb-6 text-sm lg:text-base">
                 Help others by sharing your dorm experience
               </p>
               <Button 
                 onClick={() => handleAuthRequiredAction('/share')}
                 variant="secondary" 
                 size="lg" 
-                className="w-full text-lg py-6"
+                className="w-full text-base lg:text-lg py-4 lg:py-6"
               >
                 Share Your Room
               </Button>
@@ -148,24 +148,24 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t mt-16">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex justify-center space-x-8">
-            <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">
+      <footer className="bg-white border-t mt-8 lg:mt-16">
+        <div className="container mx-auto px-4 py-6 lg:py-8">
+          <div className="flex justify-center space-x-6 lg:space-x-8">
+            <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors text-sm lg:text-base">
               About Us
             </Link>
             <a 
               href="mailto:penelope.pressman@gmail.com" 
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors text-sm lg:text-base"
             >
               Contact
             </a>
           </div>
           
           {/* Privacy Note */}
-          <div className="mt-6 pt-6 border-t border-border">
+          <div className="mt-4 lg:mt-6 pt-4 lg:pt-6 border-t border-border">
             <div className="max-w-3xl mx-auto text-center">
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-xs lg:text-sm text-muted-foreground leading-relaxed">
                 <span className="font-medium text-foreground">Privacy note:</span> Dorm Scout is not affiliated with any university. 
                 Content is user-submitted and may be inaccurate. We collect only what's needed to run the site and never sell your data. 
                 See our{' '}
