@@ -31,15 +31,15 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-off-white">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white border-b shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-2 rounded-lg">
-              <Building className="h-5 w-5" />
+      <header className="bg-card border-b shadow-sm">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4 flex justify-between items-center">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-1.5 sm:p-2 rounded-lg">
+              <Building className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent">
+            <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-dorm-pink to-dorm-orange bg-clip-text text-transparent">
               Dorm Scout
             </h1>
           </div>
@@ -47,7 +47,7 @@ const Index = () => {
           {/* Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="px-2 sm:px-3">
                 <Menu className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -84,39 +84,39 @@ const Index = () => {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-6 lg:py-12">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-12">
         {/* Hero Section */}
-        <section className="text-center mb-8 lg:mb-16">
-          <div className="mb-4 lg:mb-8">
-            <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-3 lg:p-4 rounded-lg mb-4 lg:mb-6 inline-flex">
-              <Building className="h-8 w-8 lg:h-12 lg:w-12" />
+        <section className="text-center mb-6 sm:mb-8 lg:mb-16">
+          <div className="mb-3 sm:mb-4 lg:mb-8">
+            <div className="bg-gradient-to-r from-dorm-pink to-dorm-orange text-white p-2 sm:p-3 lg:p-4 rounded-lg mb-3 sm:mb-4 lg:mb-6 inline-flex">
+              <Building className="h-6 w-6 sm:h-8 sm:w-8 lg:h-12 lg:w-12" />
             </div>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 lg:mb-6 bg-gradient-to-r from-dorm-pink via-dorm-orange to-dorm-blue bg-clip-text text-transparent">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 lg:mb-6 bg-gradient-to-r from-dorm-pink via-dorm-orange to-dorm-blue bg-clip-text text-transparent leading-tight">
             Dorm Scout
           </h1>
-          <p className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 lg:mb-8 px-4">
+          <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-4 sm:mb-6 lg:mb-8 px-2 sm:px-4 leading-relaxed">
             Learn from earlier residents so you know what to expect!
           </p>
         </section>
 
         {/* Main Action Cards */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8 mb-8 lg:mb-16 max-w-4xl mx-auto">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-8 mb-6 sm:mb-8 lg:mb-16 max-w-4xl mx-auto">
           <Card className="group lg:hover:shadow-2xl transition-all duration-300 lg:hover:scale-105 border-0 bg-gradient-to-br from-dorm-pink/10 to-dorm-pink/5">
-            <CardContent className="p-6 lg:p-8 text-center">
-              <div className="mb-4 lg:mb-6">
-                <div className="inline-flex items-center justify-center p-3 lg:p-4 bg-dorm-pink rounded-2xl mb-3 lg:mb-4">
-                  <Search className="h-6 w-6 lg:h-8 lg:w-8 text-white" />
+            <CardContent className="p-4 sm:p-6 lg:p-8 text-center">
+              <div className="mb-3 sm:mb-4 lg:mb-6">
+                <div className="inline-flex items-center justify-center p-2.5 sm:p-3 lg:p-4 bg-dorm-pink rounded-2xl mb-2 sm:mb-3 lg:mb-4">
+                  <Search className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-white" />
                 </div>
               </div>
-              <h2 className="text-xl lg:text-2xl font-bold mb-3 lg:mb-4 text-foreground">Find a Dorm</h2>
-              <p className="text-muted-foreground mb-4 lg:mb-6 text-sm lg:text-base">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 lg:mb-4 text-foreground">Find a Dorm</h2>
+              <p className="text-muted-foreground mb-3 sm:mb-4 lg:mb-6 text-sm sm:text-sm lg:text-base leading-relaxed">
                 Find your dorm, or dream dorm, and browse photos, reviews, and tips.
               </p>
               <Button 
                 onClick={() => handleAuthRequiredAction('/find')}
                 size="lg" 
-                className="w-full text-base lg:text-lg py-4 lg:py-6"
+                className="w-full text-sm sm:text-base lg:text-lg py-3 sm:py-4 lg:py-6"
               >
                 Start Exploring
               </Button>
@@ -124,21 +124,21 @@ const Index = () => {
           </Card>
 
           <Card className="group lg:hover:shadow-2xl transition-all duration-300 lg:hover:scale-105 border-0 bg-gradient-to-br from-dorm-orange/10 to-dorm-orange/5">
-            <CardContent className="p-6 lg:p-8 text-center">
-              <div className="mb-4 lg:mb-6">
-                <div className="inline-flex items-center justify-center p-3 lg:p-4 bg-dorm-orange rounded-2xl mb-3 lg:mb-4">
-                  <Upload className="h-6 w-6 lg:h-8 lg:w-8 text-white" />
+            <CardContent className="p-4 sm:p-6 lg:p-8 text-center">
+              <div className="mb-3 sm:mb-4 lg:mb-6">
+                <div className="inline-flex items-center justify-center p-2.5 sm:p-3 lg:p-4 bg-dorm-orange rounded-2xl mb-2 sm:mb-3 lg:mb-4">
+                  <Upload className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-white" />
                 </div>
               </div>
-              <h2 className="text-xl lg:text-2xl font-bold mb-3 lg:mb-4 text-foreground">Share a Dorm</h2>
-              <p className="text-muted-foreground mb-4 lg:mb-6 text-sm lg:text-base">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 lg:mb-4 text-foreground">Share a Dorm</h2>
+              <p className="text-muted-foreground mb-3 sm:mb-4 lg:mb-6 text-sm sm:text-sm lg:text-base leading-relaxed">
                 Help others by sharing your dorm experience
               </p>
               <Button 
                 onClick={() => handleAuthRequiredAction('/share')}
                 variant="secondary" 
                 size="lg" 
-                className="w-full text-base lg:text-lg py-4 lg:py-6"
+                className="w-full text-sm sm:text-base lg:text-lg py-3 sm:py-4 lg:py-6"
               >
                 Share Your Room
               </Button>
@@ -148,24 +148,24 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t mt-8 lg:mt-16">
-        <div className="container mx-auto px-4 py-6 lg:py-8">
-          <div className="flex justify-center space-x-6 lg:space-x-8">
-            <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors text-sm lg:text-base">
+      <footer className="bg-card border-t mt-6 sm:mt-8 lg:mt-16">
+        <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-8">
+          <div className="flex justify-center space-x-4 sm:space-x-6 lg:space-x-8">
+            <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors text-xs sm:text-sm lg:text-base">
               About Us
             </Link>
             <a 
               href="mailto:penelope.pressman@gmail.com" 
-              className="text-muted-foreground hover:text-foreground transition-colors text-sm lg:text-base"
+              className="text-muted-foreground hover:text-foreground transition-colors text-xs sm:text-sm lg:text-base"
             >
               Contact
             </a>
           </div>
           
           {/* Privacy Note */}
-          <div className="mt-4 lg:mt-6 pt-4 lg:pt-6 border-t border-border">
+          <div className="mt-3 sm:mt-4 lg:mt-6 pt-3 sm:pt-4 lg:pt-6 border-t border-border">
             <div className="max-w-3xl mx-auto text-center">
-              <p className="text-xs lg:text-sm text-muted-foreground leading-relaxed">
+              <p className="text-xs sm:text-xs lg:text-sm text-muted-foreground leading-relaxed px-2">
                 <span className="font-medium text-foreground">Privacy note:</span> Dorm Scout is not affiliated with any university. 
                 Content is user-submitted and may be inaccurate. We collect only what's needed to run the site and never sell your data. 
                 See our{' '}
@@ -184,18 +184,18 @@ const Index = () => {
 
       {/* Auth Required Modal */}
       {requiresAuth && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setRequiresAuth(false)}>
-          <Card className="w-full max-w-md m-4" onClick={(e) => e.stopPropagation()}>
-            <CardContent className="p-6 text-center">
-              <h3 className="text-lg font-semibold mb-4">Sign In Required</h3>
-              <p className="text-muted-foreground mb-6">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setRequiresAuth(false)}>
+          <Card className="w-full max-w-sm sm:max-w-md" onClick={(e) => e.stopPropagation()}>
+            <CardContent className="p-4 sm:p-6 text-center">
+              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Sign In Required</h3>
+              <p className="text-muted-foreground mb-4 sm:mb-6 text-sm sm:text-base">
                 You need to sign in with your school email to access this feature.
               </p>
-              <div className="flex space-x-3">
-                <Button variant="outline" onClick={() => setRequiresAuth(false)} className="flex-1">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <Button variant="outline" onClick={() => setRequiresAuth(false)} className="flex-1 text-sm sm:text-base">
                   Cancel
                 </Button>
-                <Button onClick={() => navigate('/auth')} className="flex-1">
+                <Button onClick={() => navigate('/auth')} className="flex-1 text-sm sm:text-base">
                   Sign In
                 </Button>
               </div>
