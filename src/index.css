@@ -111,51 +111,6 @@ All colors MUST be HSL.
   }
 }
 
-/* Safe area support for iOS devices */
-.safe-area-inset-top {
-  padding-top: env(safe-area-inset-top);
-}
-
-.safe-area-inset-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-.safe-area-inset-left {
-  padding-left: env(safe-area-inset-left);
-}
-
-.safe-area-inset-right {
-  padding-right: env(safe-area-inset-right);
-}
-
-/* Mobile scroll improvements */
-.scroll-smooth {
-  scroll-behavior: smooth;
-}
-
-/* Touch improvements */
-@media (hover: none) and (pointer: coarse) {
-  /* Remove hover effects on touch devices */
-  .hover\:scale-105:hover {
-    transform: none;
-  }
-  
-  /* Ensure tap targets are large enough */
-  button, 
-  [role="button"], 
-  input[type="submit"], 
-  input[type="button"] {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-/* Prevent layout shifts */
-img, video {
-  height: auto;
-  max-width: 100%;
-}
-
 @layer base {
   * {
     @apply border-border;
