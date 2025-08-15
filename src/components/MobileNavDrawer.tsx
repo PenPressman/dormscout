@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { Menu, X, Search, Upload, Heart, Edit, LogOut, LogIn, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useAuth } from '@/hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 interface MobileNavDrawerProps {
+  user: any | null;
   onNavigate: (path: string) => void;
+  onSignOut: () => void;
 }
 
-export const MobileNavDrawer = ({ onNavigate }: MobileNavDrawerProps) => {
+export const MobileNavDrawer = ({ user, onNavigate, onSignOut }: MobileNavDrawerProps) => {
   const [open, setOpen] = useState(false);
-  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
@@ -124,7 +124,7 @@ export const MobileNavDrawer = ({ onNavigate }: MobileNavDrawerProps) => {
                   className="w-full justify-start min-h-[44px] text-left"
                   onClick={() => {
                     setOpen(false);
-                    signOut();
+                    onSignOut();
                   }}
                 >
                   <LogOut className="h-5 w-5 mr-3" />
