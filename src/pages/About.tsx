@@ -15,14 +15,39 @@ const About = () => {
             About Us
           </h1>
           
-          <Card className="mt-16">
-            <CardContent className="p-12 text-center">
-              <h2 className="text-2xl font-semibold mb-4 text-muted-foreground">
-                Coming Soon
-              </h2>
-              <p className="text-muted-foreground">
-                We're working on something amazing. Stay tuned!
-              </p>
+          <Card className="mt-8">
+            <CardContent className="p-8 md:p-12 text-left max-w-none">
+              <div className="prose prose-lg max-w-none">
+                <p className="text-lg mb-6">Hey! I'm Penelope.</p>
+                
+                <p className="mb-4">
+                  I'm about to start my freshman year at Harvard, and honestly, the thing I stressed about the most wasn't classes…it was my dorm. I kept wondering: what's it gonna look like? how big is it? what do people usually do with the space?
+                </p>
+                
+                <p className="mb-4">
+                  There wasn't really a good way to find out. I could figure out what the building looked like, but not the room. I don't know the ins and outs of living there. So, I decided to build a solution.
+                </p>
+                
+                <p className="mb-4">
+                  That's how Dorm Scout was born. Students can post their actual dorm rooms so future students can see what they're walking into, get ideas, and feel a little less nervous about move-in.
+                </p>
+                
+                <p className="mb-4">
+                  The site's up and running, but here's the catch: I need your help to get it started. If you're in college, do me (and the next class of freshmen) a huge favor — post your room. Share your setup, your hacks, and anything else you learned.
+                </p>
+                
+                <p className="mb-4">
+                  Think of it like passing the torch. Your pics could save someone hours of stress, and you get dorm clout along the way.
+                </p>
+                
+                <p className="mb-4">
+                  Appreciate you for being part of this 🙌
+                </p>
+                
+                <p className="text-right font-medium">
+                  — Penelope
+                </p>
+              </div>
             </CardContent>
           </Card>
         </div>
