@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Search, Upload, Building, Menu, Heart, Edit, LogOut, LogIn } from 'lucide-react';
+import { Search, Upload, Building, Menu, Heart, Edit, LogOut, LogIn, Shield } from 'lucide-react';
 
 const Index = () => {
   const { user, loading, signOut } = useAuth();
@@ -68,6 +68,12 @@ const Index = () => {
                 <Heart className="h-4 w-4 mr-2" />
                 View Saved Dorms
               </DropdownMenuItem>
+              {user?.email === 'penelopepressman@college.harvard.edu' && (
+                <DropdownMenuItem onClick={() => navigate('/admin')}>
+                  <Shield className="h-4 w-4 mr-2" />
+                  Admin Dashboard
+                </DropdownMenuItem>
+              )}
               {user ? (
                 <DropdownMenuItem onClick={signOut}>
                   <LogOut className="h-4 w-4 mr-2" />

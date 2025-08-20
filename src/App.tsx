@@ -20,6 +20,7 @@ import EmailVerified from "./pages/EmailVerified";
 import TermsOfService from "./pages/legal/TermsOfService";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import AdminConsents from "./pages/admin/Consents";
+import AdminDashboard from "./pages/admin/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/legal/terms-of-service" element={<TermsOfService />} />
             <Route path="/legal/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/consents" element={<AdminConsents />} />
             {/* Legacy routes for backward compatibility */}
             <Route path="/search" element={<FindDorm />} />
