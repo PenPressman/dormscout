@@ -95,7 +95,7 @@ const FindDorm = () => {
             Browse Dorms
           </h1>
           <p className="text-lg text-muted-foreground">
-            Search for your room, or browse others at your school.
+            Search for your dorm room, or browse others at your school. Plan your layout. Get inspired.
           </p>
         </div>
 
