@@ -14,7 +14,7 @@ const AdminDashboard = () => {
   const { user } = useAuth();
   
   // Admin access control - only allow specific email
-  const isAdmin = user?.email === 'penelopepressman@college.harvard.edu';
+  const isAdmin = user?.email === 'penelope.pressman@gmail.com';
 
   const { data: stats } = useQuery({
     queryKey: ['admin-stats'],

@@ -68,7 +68,7 @@ const Index = () => {
                 <Heart className="h-4 w-4 mr-2" />
                 View Saved Dorms
               </DropdownMenuItem>
-              {user?.email === 'penelopepressman@college.harvard.edu' && (
+              {user?.email === 'penelope.pressman@gmail.com' && (
                 <DropdownMenuItem onClick={() => navigate('/admin')}>
                   <Shield className="h-4 w-4 mr-2" />
                   Admin Dashboard
