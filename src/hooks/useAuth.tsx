@@ -53,8 +53,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       console.log('Starting signup process for:', email);
       
-      // Allow admin email to bypass school validation
-      const isAdminEmail = email === 'penelope.pressman@gmail.com';
+      // Allow admin emails to bypass school validation
+      const isAdminEmail = email === 'penelope.pressman@gmail.com' || email === 'penelopepressman@college.harvard.edu';
       
       if (!isAdminEmail) {
         // Check if email is from a supported school domain
