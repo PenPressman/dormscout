@@ -21,18 +21,14 @@ const AdminDashboard = () => {
     queryFn: async () => {
       if (!isAdmin) throw new Error('Unauthorized');
       
-      const [usersResult, schoolsResult, dormsResult, postsResult] = await Promise.all([
-        supabase.from('profiles').select('*', { count: 'exact' }),
-        supabase.from('schools').select('*', { count: 'exact' }),
-        supabase.from('dorm_profiles').select('*', { count: 'exact' }),
-        supabase.from('posts').select('*', { count: 'exact' })
-      ]);
-
-      return {
-        users: usersResult.count || 0,
-        schools: schoolsResult.count || 0,
-        dorms: dormsResult.count || 0,
-        posts: postsResult.count || 0
+      const { data, error } = await supabase.rpc('get_admin_stats');
+      if (error) throw error;
+      
+      return data?.[0] || {
+        total_users: 0,
+        total_schools: 0,
+        total_dorms: 0,
+        total_posts: 0
       };
     },
     enabled: isAdmin,
@@ -43,16 +39,25 @@ const AdminDashboard = () => {
     queryFn: async () => {
       if (!isAdmin) throw new Error('Unauthorized');
       
-      const { data, error } = await supabase
-        .from('profiles')
-        .select(`
-          *,
-          schools (name)
-        `)
-        .order('created_at', { ascending: false });
-
+      const { data, error } = await supabase.rpc('get_all_profiles_admin');
       if (error) throw error;
-      return data;
+      
+      // Get school names separately
+      const usersWithSchools = await Promise.all(
+        (data || []).map(async (user) => {
+          if (!user.school_id) return { ...user, schools: null };
+          
+          const { data: school } = await supabase
+            .from('schools')
+            .select('name')
+            .eq('id', user.school_id)
+            .single();
+          
+          return { ...user, schools: school };
+        })
+      );
+      
+      return usersWithSchools;
     },
     enabled: isAdmin,
   });
@@ -62,30 +67,26 @@ const AdminDashboard = () => {
     queryFn: async () => {
       if (!isAdmin) throw new Error('Unauthorized');
       
-      const { data, error } = await supabase
-        .from('dorm_profiles')
-        .select(`
-          *,
-          schools (name)
-        `)
-        .order('created_at', { ascending: false })
-        .limit(10);
-
+      const { data, error } = await supabase.rpc('get_all_dorm_profiles_admin');
       if (error) throw error;
       
-      // Get profile emails separately
-      const profilesData = await Promise.all(
-        data.map(async (dorm) => {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('email')
-            .eq('user_id', dorm.user_id)
-            .single();
-          return { ...dorm, profile_email: profile?.email };
+      // Get school names and profile emails separately
+      const dormsWithDetails = await Promise.all(
+        (data || []).slice(0, 10).map(async (dorm) => {
+          const [schoolResult, profileResult] = await Promise.all([
+            supabase.from('schools').select('name').eq('id', dorm.school_id).single(),
+            supabase.from('profiles').select('email').eq('user_id', dorm.user_id).single()
+          ]);
+          
+          return {
+            ...dorm,
+            schools: schoolResult.data,
+            profile_email: profileResult.data?.email
+          };
         })
       );
       
-      return profilesData;
+      return dormsWithDetails;
     },
     enabled: isAdmin,
   });
@@ -127,7 +128,7 @@ const AdminDashboard = () => {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.users || 0}</div>
+            <div className="text-2xl font-bold">{stats?.total_users || 0}</div>
           </CardContent>
         </Card>
 
@@ -137,7 +138,7 @@ const AdminDashboard = () => {
             <School className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.schools || 0}</div>
+            <div className="text-2xl font-bold">{stats?.total_schools || 0}</div>
           </CardContent>
         </Card>
 
@@ -147,7 +148,7 @@ const AdminDashboard = () => {
             <FileImage className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.dorms || 0}</div>
+            <div className="text-2xl font-bold">{stats?.total_dorms || 0}</div>
           </CardContent>
         </Card>
 
@@ -157,7 +158,7 @@ const AdminDashboard = () => {
             <MessageSquare className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.posts || 0}</div>
+            <div className="text-2xl font-bold">{stats?.total_posts || 0}</div>
           </CardContent>
         </Card>
       </div>
