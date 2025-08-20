@@ -407,6 +407,51 @@ export type Database = {
         Args: { new_email: string; new_school_id: string; new_user_id: string }
         Returns: undefined
       }
+      get_admin_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          total_dorms: number
+          total_posts: number
+          total_schools: number
+          total_users: number
+        }[]
+      }
+      get_all_dorm_profiles_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          contact_email: string
+          contact_enabled: boolean
+          contact_first_name: string
+          contact_last_initial: string
+          created_at: string
+          dorm_name: string
+          id: string
+          notes: string
+          photos_decorated: string[]
+          photos_empty: string[]
+          published: boolean
+          room_number: string
+          school_id: string
+          updated_at: string
+          user_id: string
+        }[]
+      }
+      get_all_profiles_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          email: string
+          id: string
+          latest_consented_at: string
+          latest_privacy_version: string
+          latest_tos_version: string
+          role: Database["public"]["Enums"]["app_role"]
+          school_id: string
+          updated_at: string
+          user_id: string
+          verified_at: string
+        }[]
+      }
       get_dorm_profile_secure: {
         Args: { profile_id: string }
         Returns: {
