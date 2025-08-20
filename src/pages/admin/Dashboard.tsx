@@ -62,6 +62,19 @@ const AdminDashboard = () => {
     enabled: isAdmin,
   });
 
+  const { data: posts } = useQuery({
+    queryKey: ['admin-posts'],
+    queryFn: async () => {
+      if (!isAdmin) throw new Error('Unauthorized');
+      
+      const { data, error } = await supabase.rpc('get_all_posts_admin');
+      if (error) throw error;
+      
+      return data || [];
+    },
+    enabled: isAdmin,
+  });
+
   const { data: recentDorms } = useQuery({
     queryKey: ['admin-recent-dorms'],
     queryFn: async () => {
@@ -172,6 +185,7 @@ const AdminDashboard = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>School</TableHead>
                 <TableHead>Role</TableHead>
@@ -182,7 +196,12 @@ const AdminDashboard = () => {
             <TableBody>
               {users?.map((user) => (
                 <TableRow key={user.id}>
-                  <TableCell className="font-medium">{user.email}</TableCell>
+                  <TableCell className="font-medium">
+                    {user.first_name || user.last_name 
+                      ? `${user.first_name || ''} ${user.last_name || ''}`.trim() 
+                      : 'N/A'}
+                  </TableCell>
+                  <TableCell>{user.email}</TableCell>
                   <TableCell>{user.schools?.name || 'N/A'}</TableCell>
                   <TableCell>
                     <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
@@ -199,6 +218,69 @@ const AdminDashboard = () => {
                   </TableCell>
                 </TableRow>
               ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      {/* User Posts */}
+      <Card>
+        <CardHeader>
+          <CardTitle>All User Posts</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Title</TableHead>
+                <TableHead>Author</TableHead>
+                <TableHead>School</TableHead>
+                <TableHead>Room</TableHead>
+                <TableHead>Tags</TableHead>
+                <TableHead>Created</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {posts?.map((post) => (
+                <TableRow key={post.id}>
+                  <TableCell className="font-medium">{post.title}</TableCell>
+                  <TableCell>
+                    {post.user_first_name || post.user_last_name 
+                      ? `${post.user_first_name || ''} ${post.user_last_name || ''}`.trim()
+                      : post.user_email || 'Unknown'}
+                  </TableCell>
+                  <TableCell>{post.school_name || 'N/A'}</TableCell>
+                  <TableCell>
+                    {post.building_name ? `${post.building_name} ${post.room_number}` : 'N/A'}
+                  </TableCell>
+                  <TableCell>
+                    {post.tags?.length ? (
+                      <div className="flex gap-1 flex-wrap">
+                        {post.tags.slice(0, 2).map((tag, idx) => (
+                          <Badge key={idx} variant="outline" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                        {post.tags.length > 2 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{post.tags.length - 2}
+                          </Badge>
+                        )}
+                      </div>
+                    ) : (
+                      'No tags'
+                    )}
+                  </TableCell>
+                  <TableCell>{format(new Date(post.created_at), 'MMM dd, yyyy')}</TableCell>
+                </TableRow>
+              ))}
+              {posts?.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center text-muted-foreground">
+                    No posts found
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </CardContent>

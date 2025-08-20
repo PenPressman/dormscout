@@ -206,7 +206,9 @@ export type Database = {
         Row: {
           created_at: string
           email: string
+          first_name: string | null
           id: string
+          last_name: string | null
           latest_consented_at: string | null
           latest_privacy_version: string | null
           latest_tos_version: string | null
@@ -219,7 +221,9 @@ export type Database = {
         Insert: {
           created_at?: string
           email: string
+          first_name?: string | null
           id?: string
+          last_name?: string | null
           latest_consented_at?: string | null
           latest_privacy_version?: string | null
           latest_tos_version?: string | null
@@ -232,7 +236,9 @@ export type Database = {
         Update: {
           created_at?: string
           email?: string
+          first_name?: string | null
           id?: string
+          last_name?: string | null
           latest_consented_at?: string | null
           latest_privacy_version?: string | null
           latest_tos_version?: string | null
@@ -436,12 +442,33 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_all_posts_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          building_name: string
+          content: string
+          created_at: string
+          id: string
+          room_id: string
+          room_number: string
+          school_name: string
+          tags: string[]
+          title: string
+          updated_at: string
+          user_email: string
+          user_first_name: string
+          user_id: string
+          user_last_name: string
+        }[]
+      }
       get_all_profiles_admin: {
         Args: Record<PropertyKey, never>
         Returns: {
           created_at: string
           email: string
+          first_name: string
           id: string
+          last_name: string
           latest_consented_at: string
           latest_privacy_version: string
           latest_tos_version: string
